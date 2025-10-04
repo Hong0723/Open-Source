@@ -45,3 +45,9 @@ TagManager:
   - name: Background
     uniqueID: 1497830729
     locked: 0
+  - name: Actors
+    uniqueID: 369122277
+    locked: 0
+  - name: UI
+    uniqueID: 3777106517
+    locked: 0
