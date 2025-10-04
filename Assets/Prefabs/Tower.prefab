@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8207547, g: 0.4761926, b: 0.4761926, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,6 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0261e73685924e84ea36dac81bf0fe94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 5664819446695145560, guid: 3113bac51cd64a74dbfefd95a42d56ea, type: 3}
+  fireInterval: 0.7
   range: 3
-  fireRate: 1
-  projectilePrefab: {fileID: 4758527018969173209, guid: 3113bac51cd64a74dbfefd95a42d56ea, type: 3}

@@ -1,63 +1,70 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Tower : MonoBehaviour
 {
-    public float range = 3f;                 // 공격 범위
-    public float fireRate = 1.0f;            // 초당 발사 횟수
-    public GameObject projectilePrefab;      // 발사체 프리팹
+    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private float fireInterval = 0.7f;
+    [SerializeField] private float range = 4.5f;
 
-    private float cd;
+    private float timer;
 
-    void Update()
+    private void OnValidate()
     {
-        cd -= Time.deltaTime;
-        if (cd > 0) return;
-
-        Transform t = FindTarget();
-        if (t == null) return;
-
-        Shoot(t);
-        cd = 1f / fireRate;
+        if (projectilePrefab == null)
+            Debug.LogError($"[Tower:{name}] Projectile Prefab이 비어있습니다.", this);
+        if (range <= 0f)
+            Debug.LogWarning($"[Tower:{name}] 사거리(range)가 {range} 입니다.", this);
     }
 
-    Transform FindTarget()
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer < fireInterval) return;
+
+        var target = FindNearestEnemyInRange();
+        if (target != null)
+        {
+            var p = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            p.Init(target);
+            timer = 0f;
+        }
+        else
+        {
+            Debug.LogWarning($"[Tower:{name}] 사거리 {range} 내 적이 없습니다.");
+            timer = 0f; // 과도한 로그 방지용으로 쿨다운은 유지
+        }
+    }
+
+    private Transform FindNearestEnemyInRange()
     {
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies == null || enemies.Length == 0)
+        {
+            // 태그 문제 디텍트
+            Debug.LogWarning("[Tower] 'Enemy' 태그를 가진 오브젝트가 하나도 없습니다. 프리팹 Tag를 'Enemy'로 설정하세요.");
+            return null;
+        }
+
         Transform best = null;
-        float bestDist = Mathf.Infinity;
+        float bestDist = float.MaxValue;
 
         foreach (var e in enemies)
         {
             float d = Vector2.Distance(transform.position, e.transform.position);
-            if (d < range && d < bestDist)
+            if (d < bestDist && d <= range)
             {
                 best = e.transform;
                 bestDist = d;
             }
         }
+
         return best;
     }
 
-    void Shoot(Transform t)
+    private void OnDrawGizmosSelected()
     {
-        if (projectilePrefab == null)
-        {
-            Debug.LogError("Projectile Prefab이 Tower에 연결되지 않았습니다!");
-            return;
-        }
-
-        GameObject p = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-
-        // Projectile 컴포넌트 확인
-        Projectile proj = p.GetComponent<Projectile>();
-        if (proj != null) proj.Init(t);
-        else Debug.LogError("Projectile 프리팹에 Projectile 스크립트가 빠져 있습니다!");
-    }
-
-    // 에디터에서 사거리 확인용
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, range);
     }
 }

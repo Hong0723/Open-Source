@@ -1,31 +1,38 @@
-# Unity generated folders
+# Unity generated
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
-Obj/
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/
+Obj/
 
-# Firebase SDK & 플러그인
-Assets/Firebase/**
-Assets/ExternalDependencyManager/**
-Assets/Plugins/Android/
-Assets/Plugins/iOS/
+# StreamingAssets의 민감 키/설정(커밋 금지)
 Assets/StreamingAssets/google-services-desktop.json
 Assets/StreamingAssets/google-services.json
 Assets/StreamingAssets/GoogleService-Info.plist
+Assets/Firebase/Plugins/x86_64/**
 
+# EDM4U(External Dependency Manager) 캐시/생성물 무시(필수 소스/설정은 커밋)
+Assets/Plugins/Android/**/m2repository/
+Assets/Plugins/Android/**/.gradle/
+Assets/Plugins/Android/**/gradle/
+Assets/Plugins/Android/**/build/
+Assets/Plugins/Android/**/*.sha1
+# 필요 시: .resolved/ .androidlib 등 로컬 빌드 산출물도 무시
+Assets/Plugins/Android/**/*.androidlib/ 
 
-# Visual Studio / Rider
+# IDE
 .vs/
+.vscode/
+.idea/
 *.csproj
 *.sln
 *.user
 *.unityproj
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db

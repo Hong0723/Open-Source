@@ -2,28 +2,34 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    [Header("경로")]
-    public Transform[] waypoints;   // Path의 자식들을 여기로 전달
-    public float speed = 2f;
+    [SerializeField] private float speed = 2f;
 
-    int index = 0;
+    private Transform[] waypoints;
+    private int currentIndex = 0;
 
-    void Update()
+    public void Init(Transform[] points)
     {
-        if (waypoints == null || waypoints.Length == 0) return;
+        waypoints = points;
+        currentIndex = 0;
+        if (waypoints != null && waypoints.Length > 0)
+            transform.position = waypoints[0].position;
+    }
 
-        Transform target = waypoints[index];
-        transform.position = Vector2.MoveTowards(
-            transform.position, target.position, speed * Time.deltaTime);
+    //  WaveSpawner 호환용
+    public void Setup(Transform[] points) => Init(points);
+
+    private void Update()
+    {
+        if (waypoints == null || currentIndex >= waypoints.Length) return;
+
+        Transform target = waypoints[currentIndex];
+        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, target.position) < 0.05f)
         {
-            index++;
-            if (index >= waypoints.Length)
-            {
-                // 목적지 도착 시: 일단은 제거 (나중에 플레이어 HP 감소로 교체)
+            currentIndex++;
+            if (currentIndex >= waypoints.Length)
                 Destroy(gameObject);
-            }
         }
     }
 }

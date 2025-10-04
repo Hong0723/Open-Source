@@ -1,14 +1,12 @@
 using UnityEngine;
 
-[ExecuteAlways]
 public class PathGizmo : MonoBehaviour
 {
-    public Color lineColor = Color.yellow;
-
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        Gizmos.color = lineColor;
-        var points = GetComponentsInChildren<Transform>();
+        Transform[] points = GetComponentsInChildren<Transform>();
+        Gizmos.color = Color.yellow;
+
         for (int i = 1; i < points.Length - 1; i++)
         {
             Gizmos.DrawLine(points[i].position, points[i + 1].position);

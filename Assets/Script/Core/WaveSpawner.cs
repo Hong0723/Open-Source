@@ -1,28 +1,39 @@
-// Scripts/Core/WaveSpawner.cs
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public Transform spawnPoint;
-    public Transform[] waypoints;
+    [Header("Enemy Settings")]
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform[] pathPoints;
 
-    public float spawnInterval = 2f;
-    public int enemiesPerWave = 5;
+    private bool isSpawning = false;
 
-    void Start()
+    public void StartWave(int enemyCount, float spawnInterval)
     {
-        StartCoroutine(SpawnWave());
+        isSpawning = true;
+        StartCoroutine(SpawnEnemies(enemyCount, spawnInterval));
     }
 
-    IEnumerator SpawnWave()
+    public void StopWave()
     {
-        for (int i = 0; i < enemiesPerWave; i++)
+        isSpawning = false;
+    }
+
+    private IEnumerator SpawnEnemies(int count, float interval)
+    {
+        for (int i = 0; i < count; i++)
         {
-            GameObject e = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-            e.GetComponent<EnemyMover>().waypoints = waypoints;
-            yield return new WaitForSeconds(spawnInterval);
+            if (!isSpawning)
+                yield break;
+
+            GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+            var mover = enemy.GetComponent<EnemyMover>();
+            if (mover != null)
+                mover.Init(pathPoints);
+
+            yield return new WaitForSeconds(interval);
         }
     }
 }
