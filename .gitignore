@@ -4,9 +4,20 @@
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
+Obj/
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/
+
+# Firebase SDK & 플러그인
+Assets/Firebase/**
+Assets/ExternalDependencyManager/**
+Assets/Plugins/Android/
+Assets/Plugins/iOS/
+Assets/StreamingAssets/google-services-desktop.json
+Assets/StreamingAssets/google-services.json
+Assets/StreamingAssets/GoogleService-Info.plist
+
 
 # Visual Studio / Rider
 .vs/
