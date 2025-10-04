@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Play Map.unity
     guid: 630d262bbb3c7be4dae855dda9c0437d
+  - enabled: 1
+    path: Assets/Scenes/Defeat.unity
+    guid: 6ae1984351b8a7d42b0512f130b4fb72
   m_configObjects: {}
